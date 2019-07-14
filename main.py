@@ -3,25 +3,24 @@ checkers = {1: 3, 6: 1, 10: 2, 12: 1, 13: 1}
 
 #def CalculateScore ():
 
-def find_moves(checkers, dice1, dice2):
-    locations = []
-    score = {}
-
-    # locations ile her pul değerinin konumu belirtilecek ve sonraki satırlarda kullanılacaktır.
-    o = 1  # pul değerini temsil eder ve her döngüde bir artar
+def find_locations_list (checkers) :
+    locationList = []
+    i=1# pul değerini temsil eder ve her döngüde bir artar
     for key, value in checkers.items():
         variable = value
         while variable > 0:
-            locations.append(
-                [o, key])  # locations dizisi içerisine ilk eleman pul numarası ikinci eleman ise konumudur.
+            locationList.append(
+                [i, key])  # locations dizisi içerisine ilk eleman pul numarası ikinci eleman ise konumudur.
             variable -= 1
-            o += 1
+            i += 1
+    return locationList
 
-    dice = [dice1, dice2, dice1]
+def find_combinition_stamp(locations, dice1, dice2):
+    i = j = k = l = repeat = repeatNum = newlocation1= newlocation2 = 0
     newlocations = []
-    newlocation1 = newlocation2 = 0
-    i = j = k = l = repeat = repeatNum = 0
+
     leng = len(locations)
+    dice = [dice1, dice2, dice1]
 
     while l < 2:  # l ile hangi zarın seçileceği belirlenir
         while i < leng:
@@ -56,10 +55,17 @@ def find_moves(checkers, dice1, dice2):
             i += 1
             newlocation1 = 0
         l += 1
+        return newlocations
 
-    lengNewLocations = len(newlocations)
+def find_moves(checkers, dice1, dice2):
+    locations=find_locations_list(checkers) # locations ile her pul değerinin konumu belirtilecek ve sonraki satırlarda kullanılacaktır.
 
-    mainScore = pscore = k = door = l = m = h = oldloc1 = newloc1 = oldloc2 = newloc2 = z = sumLogControl = 0
+    newlocations = find_combinition_stamp(locations, dice1, dice2) # Tüm kombinasyonları içeren yeni konum listemiz çıktı olarak üretilir.
+
+    leng = len(locations) #Cherckers içerisindeki veriler alınıyor. [[pul id'si, konumu], [...], ... ]
+    lengNewLocations = len(newlocations) # Tüm kombinasyonları içeren yeni konum listemiz  [['pul id'si', 'konumu', 'kaçıncı kombinasyon dizisi olduğu']
+
+    mainScore = pscore = k = l = 0
     locationList = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
                     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
                     0, ]  # her pul kombinasyonundaki konum değerleri için kullanılacak liste
